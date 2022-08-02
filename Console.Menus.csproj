@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PackageId>Console.Menus</PackageId>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Authors>pallemry</Authors>
+    <Product>Console Menus</Product>
+    <Description>A simple multi-level console menu system</Description>
+    <PackageProjectUrl>https://github.com/pallemry/Console.Menus</PackageProjectUrl>
+    <PackageIcon>pngtree-menu-vector-icon-png-image_470444-removebg-preview.png</PackageIcon>
+    <RepositoryUrl>https://github.com/pallemry/Console.Menus</RepositoryUrl>
+    <PackageTags>console;menu;consolemenus;consolemenu;menus;</PackageTags>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <FileVersion>$(Assemblyversion)</FileVersion>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <Version>1.0.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="C:\Users\yisha\Downloads\pngtree-menu-vector-icon-png-image_470444-removebg-preview.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ConsoleTools" Version="1.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+</Project>
