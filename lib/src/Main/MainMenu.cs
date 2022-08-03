@@ -1,6 +1,6 @@
-﻿using Console.Menu.lib.src.Utils;
+﻿using Console.Menus.lib.src.Utils;
 
-namespace Console.Menu.lib.src.Main
+namespace Console.Menus.lib.src.Main
 {
     public sealed class MainMenu : Menu
     {

@@ -1,4 +1,4 @@
-﻿namespace Console.Menu.lib.src.Utils
+﻿namespace Console.Menus.lib.src.Utils
 {
     internal static class Globals
     {
@@ -7,7 +7,6 @@
 
         public const ConsoleKey Quit = ConsoleKey.C;
         public const ConsoleKey Back = ConsoleKey.Escape;
-        public const ConsoleKey Dir = ConsoleKey.D;
         public const ConsoleKey Enter = ConsoleKey.Enter;
         public const ConsoleKey Down = ConsoleKey.DownArrow;
         public const ConsoleKey Up = ConsoleKey.UpArrow;
@@ -15,7 +14,6 @@
         {
             return answer.Key switch
             { Back                                                   => DisplayMenuReturn.Back,
-              Dir when answer.Modifiers == ConsoleModifiers.Control  => DisplayMenuReturn.Dir,
               Quit when answer.Modifiers == ConsoleModifiers.Control => DisplayMenuReturn.Quit,
               Enter                                                  => DisplayMenuReturn.Enter,
               Down                                                   => DisplayMenuReturn.Down,

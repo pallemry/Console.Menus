@@ -1,9 +1,9 @@
 ﻿using System.Drawing;
 using System.Reflection;
 
-using Console.Menu.lib.src.Utils;
+using Console.Menus.lib.src.Utils;
 
-namespace Console.Menu.lib.src.Main
+namespace Console.Menus.lib.src.Main
 {
     public class Menu : IMenu
     {
@@ -160,6 +160,12 @@ namespace Console.Menu.lib.src.Main
             _subItems.Add(item);
             return true;
         }
+        
+        public bool AddItem(string caption, EventHandler<PerformActionEventArgs> actionToPerform = default, object? tag = default)
+        {
+            var menuItem = new MenuItem(RootParent, this, caption, actionToPerform) { Tag = null };
+            return AddItem(menuItem);
+        }
 
         protected void PrintFirstLines()
         {
@@ -205,11 +211,6 @@ namespace Console.Menu.lib.src.Main
                     break;
                 case DisplayMenuReturn.Quit:
                     RootParent.Stop();
-                    break;
-                case DisplayMenuReturn.Dir:
-                    System.Console.WriteLine();
-                    PrintPrettyDir();
-                    System.Console.WriteLine();
                     break;
                 case DisplayMenuReturn.Up:
                     int max = Items.Count == 0 ? 0 : Items.Count - 1, min = 0;

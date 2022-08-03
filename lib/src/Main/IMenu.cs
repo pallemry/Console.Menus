@@ -1,6 +1,6 @@
-﻿using Console.Menu.lib.src.Utils;
+﻿using Console.Menus.lib.src.Utils;
 
-namespace Console.Menu.lib.src.Main;
+namespace Console.Menus.lib.src.Main;
 
 public interface IMenu : IMenuItem
 {
@@ -16,7 +16,21 @@ public interface IMenu : IMenuItem
     /// <param name="title">The title and tag to give to the new menu</param>
     /// <returns>True if the addition was successful, otherwise false</returns>
     bool AddMenu(string title);
+    /// <summary>
+    /// Adds an item to the <seealso cref="Items"/> list
+    /// </summary>
+    /// <param name="item">The item to add</param>
+    /// <returns>True if the addition was successful, otherwise false</returns>
     bool AddItem(IMenuItem? item);
+
+    /// <summary>
+    /// Adds an item to the <seealso cref="Items"/> list
+    /// </summary>
+    /// <param name="caption">The caption of the item</param>
+    /// <param name="actionToPerform">A method that will be called once the item is selected e.g. <see cref="IMenuItem.PerformAction"/></param>
+    /// <param name="tag">An object that will be associated with this item</param>
+    /// <returns>True if the addition was successful, otherwise false</returns>
+    bool AddItem(string caption, EventHandler<PerformActionEventArgs> actionToPerform = default, object? tag = default);
     /// <summary>
     /// Removes an item from the <see cref="Items"/> list. Returns true if the removal was successful, otherwise false
     /// </summary>

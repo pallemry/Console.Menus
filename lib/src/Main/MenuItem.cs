@@ -1,4 +1,4 @@
-﻿namespace Console.Menu.lib.src.Main
+﻿namespace Console.Menus.lib.src.Main
 {
     public class MenuItem : IMenuItem
     {

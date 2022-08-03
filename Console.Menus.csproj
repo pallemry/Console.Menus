@@ -10,19 +10,20 @@
     <Product>Console Menus</Product>
     <Description>A simple multi-level console menu system</Description>
     <PackageProjectUrl>https://github.com/pallemry/Console.Menus</PackageProjectUrl>
-    <PackageIcon>pngtree-menu-vector-icon-png-image_470444-removebg-preview.png</PackageIcon>
+    <PackageIcon>nugetlogo.png</PackageIcon>
     <RepositoryUrl>https://github.com/pallemry/Console.Menus</RepositoryUrl>
     <PackageTags>console;menu;consolemenus;consolemenu;menus;</PackageTags>
-    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <AssemblyVersion>1.0.2</AssemblyVersion>
     <FileVersion>$(Assemblyversion)</FileVersion>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-    <Version>1.0.1</Version>
-    <PackageReleaseNotes>Removed dependencies</PackageReleaseNotes>
+    <Version>1.0.2</Version>
+    <PackageReleaseNotes>Added a README to the package, and made code easier to understand</PackageReleaseNotes>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="C:\Users\yisha\Downloads\pngtree-menu-vector-icon-png-image_470444-removebg-preview.png">
+    <None Include="C:\Users\yisha\Downloads\nugetlogo.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
@@ -45,6 +46,25 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Update="Resources\Hierarchy Diagram.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Update="Resources\nugetlogo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Update="Resources\pngtree-menu-vector-icon-png-image_470444-removebg-preview.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

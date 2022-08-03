@@ -1,4 +1,4 @@
-﻿namespace Console.Menu.lib.src.Main;
+﻿namespace Console.Menus.lib.src.Main;
 /// <summary>
 /// This is the base interface of all items and menus in the menu
 /// </summary>
