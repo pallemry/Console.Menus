@@ -24,8 +24,8 @@ MainMenu mainMenu = MainMenu.Create("My main menu");
 Then you can start adding menus and/or items to the main menu
 ```csharp
 mainMenu.AddMenu("My first sub menu");
-MenuItem item = new MenuItem(main, (mainMenu[0] as IMenu), "My first item");
-var mySubMenu = (menu[0] as IMenu);
+MenuItem item = new MenuItem(mainMenu, (mainMenu[0] as IMenu), "My first item");
+var mySubMenu = (mainMenu[0] as IMenu);
 mySubMenu.AddItem(item);
 ```
 The casting is necessary because all the items a menu contains are by default of type `IMenuItem`. In order to access the `IMenu` members, we will need to cast the item to `IMenu`.
