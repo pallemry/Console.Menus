@@ -1,3 +1,4 @@
+
 # Console Menus
 A simple, yet powerful implementation of console menus.
 
@@ -24,15 +25,15 @@ MainMenu mainMenu = MainMenu.Create("My main menu");
 Then you can start adding menus and/or items to the main menu
 ```csharp
 mainMenu.AddMenu("My first sub menu");
-MenuItem item = new MenuItem(mainMenu, (mainMenu[0] as IMenu), "My first item");
-var mySubMenu = (mainMenu[0] as IMenu);
-mySubMenu.AddItem(item);
+IMenu subMenu = (mainMenu[0] as IMenu);
+subMenu.AddItem("My first sub-sub item");
 ```
 The casting is necessary because all the items a menu contains are by default of type `IMenuItem`. In order to access the `IMenu` members, we will need to cast the item to `IMenu`.
 
 You can also add listeners to when the users selects the item like this:
 ```csharp
 int count = 0;
+var item = (subMenu[0] as MenuItem);
 item.ActionToPerform += (sender, args) => {
     count++;
     System.Console.WriteLine("I have been selected " + count + " time(s)");
