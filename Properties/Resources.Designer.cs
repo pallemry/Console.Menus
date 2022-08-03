@@ -63,6 +63,16 @@ namespace Console.Menus.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] Escape_key_example {
+            get {
+                object obj = ResourceManager.GetObject("Escape key example", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] Windows_PowerShell_2022_08_03_02_30_51__online_video_cutter_com_ {
             get {
                 object obj = ResourceManager.GetObject("Windows-PowerShell-2022-08-03-02-30-51-_online-video-cutter.com_", resourceCulture);
