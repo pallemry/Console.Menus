@@ -5,9 +5,9 @@
 public interface IMenuItem
 {
     /// <summary>
-    /// This is the main menu that is linked to this item. Every item has to have a main menu embedded to it.
+    /// This is the root menu that is linked to this item. Every item has to have a root menu embedded to it.
     /// </summary>
-    MainMenu? RootParent { get; set; }
+    IMenu? RootParent { get; }
     /// <summary>
     /// The Parent of this object
     /// </summary>

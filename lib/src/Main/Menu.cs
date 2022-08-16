@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Collections;
+using System.Drawing;
 using System.Reflection;
 
 using Console.Menus.lib.src.Utils;
@@ -8,21 +9,21 @@ namespace Console.Menus.lib.src.Main
     public class Menu : IMenu
     {
         /// <inheritdoc />
-        public IMenuItem? this[Index index]
+        public IMenuItem this[Index index]
         {
-            get => _subItems[index];
+            get => _subItems[index] ?? throw new InvalidOperationException();
             set => _subItems[index] = value;
         }
 
-        public IMenuItem? this[int index]
+        public IMenuItem this[int index]
         {
-            get => _subItems[index];
+            get => _subItems[index] ?? throw new InvalidOperationException();
             set => _subItems[index] = value;
         }
 
-        public IMenuItem? this[object tag]
+        public IMenuItem this[object tag]
         {
-            get => _subItems.First(item => item?.Tag == tag);
+            get => _subItems.First(item => item?.Tag == tag) ?? throw new InvalidOperationException();
             set
             {
                 var index = _subItems.FindIndex(item => item?.Tag == tag);
@@ -31,14 +32,65 @@ namespace Console.Menus.lib.src.Main
         }
 
         public List<object> Args { get; } = new ();
+
         /// <inheritdoc />
-        public MainMenu? RootParent { get; set; }
+        public bool Running
+        {
+            get
+            {
+                if (_isRoot)
+                    return _running;
+                else if (Parent != null)
+                    return Parent.Running;
+                else
+                    return _running;
+            }
+        }
+
+        private bool _isRoot;
+        /// <inheritdoc />
+        public void Run()
+        {
+            _running = true;
+            _isRoot = true;
+            _positionZero = new Point(System.Console.CursorLeft, System.Console.CursorTop + 1);
+            DisplayMenu(Items.Count);
+            _isRoot = false;
+        }
+
+        /// <inheritdoc />
+        public void Stop()
+        {
+            _running = false;
+
+            if (!_isRoot && Parent != null)
+            {
+                Parent.Stop();
+            }
+        }
+
+        /// <inheritdoc />
+        public IMenu RootParent
+        {
+            get
+            {
+                IMenu result;
+                for (result = this; result.Parent != null; result = result.Parent) { }
+                return result;
+            }
+        }
         /// <inheritdoc />
         public IMenu? Parent { get; set; }
         /// <inheritdoc />
         public string Caption { get; set; }
         /// <inheritdoc />
         public object? Tag { get; set; }
+
+        protected static Point _defaultConsoleLocation;
+        protected int _actionPerformedEndRow = -1;
+        private bool _running;
+        protected static Point _positionZero = new (System.Console.CursorLeft, System.Console.CursorTop + 1);
+
         /// <inheritdoc />
         public bool RemoveItem(IMenuItem? item) => _subItems.Remove(item);
 
@@ -55,16 +107,9 @@ namespace Console.Menus.lib.src.Main
         /// <inheritdoc />
         public event EventHandler<PerformActionEventArgs>? ActionPerforming;
 
-        public Menu(MainMenu? parentMainMenu, IMenu? parent, string caption = "<insert caption>",
+        public Menu(string caption = "<insert caption>",
                     params IMenuItem?[] menuItems)
         {
-            if (Assembly.GetExecutingAssembly().FullName != GetType().Assembly.FullName)
-            {
-                if (parentMainMenu == null) throw new ArgumentNullException(nameof(parentMainMenu));
-            }
-
-            RootParent = parentMainMenu;
-            Parent = parent;
             Caption = caption;
 
             foreach (var menuItem in menuItems)
@@ -102,7 +147,7 @@ namespace Console.Menus.lib.src.Main
         /// <inheritdoc />
         public virtual (DisplayMenuReturn, int) DisplayMenu(int previousLines = -1)
         {
-            if (!RootParent.Running) return (DisplayMenuReturn.Quit, -1);
+            if (!Running) return (DisplayMenuReturn.Quit, -1);
             
             (DisplayMenuReturn, int) @return = default;
 
@@ -134,7 +179,7 @@ namespace Console.Menus.lib.src.Main
         {
             if (_actionPerformedEndRow == -1) return;
             var curr = System.Console.CursorTop;
-            for (int i = 0; i < _actionPerformedEndRow - curr + 1; i++)
+            for (var i = 0; i < _actionPerformedEndRow - curr + 1; i++)
             {
                 ClearCurrentConsoleLine();
                 System.Console.WriteLine();
@@ -144,7 +189,7 @@ namespace Console.Menus.lib.src.Main
         /// <inheritdoc />
         public bool AddMenu(string title)
         {
-            var menu = new Menu(RootParent, this, title) { Tag = title };
+            var menu = new Menu(title) { Tag = title };
             return AddItem(menu);
         }
         /// <inheritdoc />
@@ -156,14 +201,14 @@ namespace Console.Menus.lib.src.Main
                 return false;
             }
 
-            item.RootParent = RootParent;
+            item.Parent = this;
             _subItems.Add(item);
             return true;
         }
         
-        public bool AddItem(string caption, EventHandler<PerformActionEventArgs> actionToPerform = default, object? tag = default)
+        public bool AddItem(string caption = "<insert caption>", EventHandler<PerformActionEventArgs> actionToPerform = default, object? tag = default)
         {
-            var menuItem = new MenuItem(RootParent, this, caption, actionToPerform) { Tag = null };
+            var menuItem = new MenuItem(caption, actionToPerform) { Tag = null };
             return AddItem(menuItem);
         }
 
@@ -190,9 +235,6 @@ namespace Console.Menus.lib.src.Main
             System.Console.WriteLine(s);
         }
 
-        protected static Point _defaultConsoleLocation;
-        protected int _actionPerformedEndRow = -1;
-        protected static Point _positionZero = new (System.Console.CursorLeft, System.Console.CursorTop + 1);
 
         /// <summary>
         /// 
@@ -210,7 +252,7 @@ namespace Console.Menus.lib.src.Main
                     @int = PerformAction(SelectedIndex, answer, Args);
                     break;
                 case DisplayMenuReturn.Quit:
-                    RootParent.Stop();
+                    Parent.Stop();
                     break;
                 case DisplayMenuReturn.Up:
                     int max = Items.Count == 0 ? 0 : Items.Count - 1, min = 0;
@@ -232,9 +274,9 @@ namespace Console.Menus.lib.src.Main
                     break;
             }
 
-            return (!RootParent.Running ? DisplayMenuReturn.Quit : @return, @int);
+            return (!Running ? DisplayMenuReturn.Quit : @return, @int);
         }
-        private void PrintPrettyDir()
+        protected void PrintPrettyDir()
         {
             System.Console.ForegroundColor = ConsoleColor.Red;
             CustomWriteLine("Current directory: ");
@@ -293,11 +335,19 @@ namespace Console.Menus.lib.src.Main
         }
         public static void ClearCurrentConsoleLine()
         {
-            int currentLineCursor = System.Console.CursorTop;
+            var currentLineCursor = System.Console.CursorTop;
             System.Console.SetCursorPosition(0, System.Console.CursorTop);
             System.Console.Write(new string(' ', System.Console.WindowWidth));
             System.Console.SetCursorPosition(0, currentLineCursor);
         }
+
+        /// <inheritdoc />
+        public IEnumerator<IMenuItem> GetEnumerator() => _subItems.GetEnumerator();
+
+        /// <inheritdoc />
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        public void Add(IMenuItem menuItem) => AddItem(menuItem);
     }
 
 }

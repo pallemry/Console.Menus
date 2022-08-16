@@ -1,12 +1,14 @@
-﻿using Console.Menus.lib.src.Utils;
+﻿using System.Collections;
+
+using Console.Menus.lib.src.Utils;
 
 namespace Console.Menus.lib.src.Main;
 
-public interface IMenu : IMenuItem
+public interface IMenu : IMenuItem, IEnumerable<IMenuItem>
 {
-    IMenuItem? this[Index index] { get; set; }
-    IMenuItem? this[int index] { get; set; }
-    IMenuItem? this[object tag] { get; set; }
+    IMenuItem this[Index index] { get; set; }
+    IMenuItem this[int index] { get; set; }
+    IMenuItem this[object tag] { get; set; }
     IReadOnlyList<IMenuItem?> Items { get; }
     (DisplayMenuReturn, int) DisplayMenu(int previousLines = -1);
     int PerformAction(int numItem, ConsoleKeyInfo userInput, params object[] args);
@@ -53,4 +55,7 @@ public interface IMenu : IMenuItem
     /// The args that will be supplied in <see cref="PerformAction"/> args
     /// </summary>
     List<object> Args { get; }
+    bool Running { get; }
+    void Run();
+    void Stop();
 }

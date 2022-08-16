@@ -2,17 +2,22 @@
 {
     public class MenuItem : IMenuItem
     {
-        public MenuItem(MainMenu? rootParent, IMenu? parent, string caption,
-                        EventHandler<PerformActionEventArgs>? actionToPerform = null)
+        public MenuItem(string caption = "<insert caption>", EventHandler<PerformActionEventArgs>? actionToPerform = null)
         {
-            RootParent = rootParent;
             Caption = caption;
-            Parent = parent;
             if (actionToPerform != null)
                 ActionToPerform += actionToPerform;
         }
-        /// <inheritdoc />
-        public MainMenu? RootParent { get; set; }
+        /// <inheritdoc/>
+        public IMenu RootParent
+        {
+            get
+            {
+                IMenu result;
+                for (result = Parent; result.Parent != null; result = result.Parent) { }
+                return result;
+            }
+        }
         /// <inheritdoc />
         public IMenu? Parent { get; set; }
         /// <inheritdoc />

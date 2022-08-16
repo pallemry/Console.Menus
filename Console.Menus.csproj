@@ -13,12 +13,14 @@
     <PackageIcon>nugetlogo.png</PackageIcon>
     <RepositoryUrl>https://github.com/pallemry/Console.Menus</RepositoryUrl>
     <PackageTags>console;menu;consolemenus;consolemenu;menus;</PackageTags>
-    <AssemblyVersion>1.0.2</AssemblyVersion>
+    <AssemblyVersion>1.1.0</AssemblyVersion>
     <FileVersion>$(Assemblyversion)</FileVersion>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-    <Version>1.0.2</Version>
-    <PackageReleaseNotes>Added a README to the package, and made code easier to understand</PackageReleaseNotes>
+    <Version>1.1.0</Version>
+    <PackageReleaseNotes>Removed MainMenu Class.
+Improved Menu Addition.
+You can now run any menu, not just the MainMenu.</PackageReleaseNotes>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
