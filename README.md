@@ -18,14 +18,14 @@ Here is an example of a demo app built using this package:
 |Ctrl + C keys|Exit the menu by forcing it to stop
 
 # Code Usage
-You can start by creating a `MainMenu` object which will be responsible to run all of your other menus/items like this:
+You can start by creating a `Menu` object which will be responsible to run all of your other menus/items like this:
 ```csharp
-MainMenu mainMenu = MainMenu.Create("My main menu");
+Menu mainMenu = new Menu("My first menu");
 ```
 Then you can start adding menus and/or items to the main menu
 ```csharp
 mainMenu.AddMenu("My first sub menu");
-IMenu subMenu = (mainMenu[0] as IMenu);
+IMenu subMenu = ((IMenu) mainMenu[0]);
 subMenu.AddItem("My first sub-sub item");
 ```
 The casting is necessary because all the items a menu contains are by default of type `IMenuItem`. In order to access the `IMenu` members, we will need to cast the item to `IMenu`.
@@ -42,16 +42,43 @@ item.ActionToPerform += (sender, args) => {
 
 > The following code increments `count` by `1` each time the users selects the item - `item`. And then proceeds to print the count. (e.g. "I have been selected 1 time(s)")
 
-In order to run the menus you'll need to call the `MainMenu.Run()` method.
+In order to run the menu you'll need to call the `IMenu.Run()` method. And `IMenu.Stop()` in order to stop.
 ```csharp
 // In order to run
 mainMenu.Run();
 // In order to stop
 mainMenu.Stop();
 ```
+**Extra** - you can also create menus in this syntax - (which may be more readable in certain cases):
+```csharp
+var mm = new Menu("My main menu")
+        {
+            new Menu("My sub menu")
+            {
+                new Menu("My sub-sub menu")
+                {
+                    new MenuItem("Print Hello World", (sender, args) => {
+                        System.Console.WriteLine("Hello World");
+                    })
+                },
+                new MenuItem("Click me", (sender, args) => {
+                    System.Console.WriteLine("I have been clicked :)");
+                }),
+                new MenuItem("Stop menu", (sender, args) => {
+                    var thisItem = ((IMenuItem) sender);
+                    thisItem.Parent.Stop();
+                })
+            }
+        };
+        mm.Run();
+```
+
+
 # Class Hierarchy
 Here is a diagram explaining the hierarchy of the project to give you a better understanding of the project
-![The project hierarchy](https://raw.githubusercontent.com/pallemry/Console.Menus/main/Resources/Hierarchy%20Diagram.png)
+
+![Project Hierarchy](https://raw.githubusercontent.com/pallemry/Console.Menus/main/Resources/Untitled%20Diagram.drawio.png)
+
 # Help
 Any problems? questions? suggestions?
 Contact me:
