@@ -101,7 +101,7 @@ namespace Console.Menus.lib.src.Main
         public int SelectedIndex { get; private set; } = -1;
 
         /// <inheritdoc />
-        public IMenuItem? SelectedItem => SelectedIndex < 0 || SelectedIndex >= _subItems.Count ? _subItems[SelectedIndex] : null;
+        public IMenuItem? SelectedItem => SelectedIndex < 0 || SelectedIndex >= _subItems.Count ? null : _subItems[SelectedIndex];
         /// <inheritdoc />
         public event EventHandler<PerformActionEventArgs>? ActionPerformed;
         /// <inheritdoc />
@@ -208,7 +208,7 @@ namespace Console.Menus.lib.src.Main
         
         public bool AddItem(string caption = "<insert caption>", EventHandler<PerformActionEventArgs> actionToPerform = default, object? tag = default)
         {
-            var menuItem = new MenuItem(caption, actionToPerform) { Tag = null };
+            var menuItem = new MenuItem(caption, actionToPerform) { Tag = tag };
             return AddItem(menuItem);
         }
 
